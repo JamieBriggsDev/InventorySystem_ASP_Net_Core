@@ -1,23 +1,36 @@
-﻿@model Database.Model.Item
+﻿@model Dictionary<string, string>
 
 @{
     ViewBag.Title = "Details";
 }
 
 <div>
-    <h4>Item</h4>
+
+    <h3>@Model.ElementAt(0).Value</h3>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
+        @foreach (var item in Model.Skip(1))
+        {
+
+            <dt>
+                @item.Key
+            </dt>
+
+            <dd>
+                @item.Value
+            </dd>
+
+        }
+
+    </dl>
+    <hr />
+    <a type="button" href="~/Inventory/Index" class="btn btn-primary btn-lg btn-block">Go Back</a>
+</div>
+
+        @*<dt>
+        @Html.DisplayNameFor(model.ElementAt(0) => model.Price)
         </dt>
 
         <dd>
@@ -34,7 +47,7 @@
 
     </dl>
 </div>
-<p>
+@*<p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
-</p>
+</p>*@

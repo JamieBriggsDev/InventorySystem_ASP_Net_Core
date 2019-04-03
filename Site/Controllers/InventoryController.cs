@@ -58,7 +58,26 @@ namespace Site.Controllers
         {
             DatabaseController db = new DatabaseController();
             Item temp = db.GetItems().First(i => i.ID == id);
-            return View(temp);
+            object tempObject = db.GetObject(id);
+
+            // Make list and add base item
+            //List<object[]> list = new List<object[]> { new object[] { temp.Name, temp.Price, temp.Quantity } };
+
+            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+            keyValuePairs.Add("Name", temp.Name);
+            keyValuePairs.Add("Price", "£" + temp.Price.ToString());
+            keyValuePairs.Add("Quantity", temp.Quantity.ToString());
+
+            foreach(var item in db.GetObject(id))
+            {
+                keyValuePairs.Add(item.Key, item.Value);
+            }
+            //keyValuePairs.Add("Type", (Type)tempObject.GetType());
+            //list.Add(list);
+
+
+
+            return View(keyValuePairs);
         }
 
     }

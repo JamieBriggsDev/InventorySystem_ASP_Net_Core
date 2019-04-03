@@ -344,6 +344,7 @@ namespace Database
             }
         }
 
+
         #region Delete Method
         public bool DeleteItem(int _id)
         {
@@ -407,6 +408,90 @@ namespace Database
                 }
             }
         }
+
+        #endregion
+
+
+        #region Get object method
+        public Dictionary<string, string> GetObject(int _id)
+        {
+            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+
+            using (var db = new InventorySystemContext())
+            {
+                if (db.Items.Any(i => i.ID == _id))
+                {
+                    Item item = db.Items.First(i => i.ID == _id);
+                    // Check all lists and delete where necessary
+                    // Case
+                    if (db.Cases.Any(c => c.ItemID == _id))
+                    {
+                        Case temp = db.Cases.First(c => c.ItemID == _id);
+                        keyValuePairs.Add("Type", temp.Type.ToString());
+                        keyValuePairs.Add("External 5 1/4\" bays", temp.ExtFiveBays.ToString());
+                        keyValuePairs.Add("Internal 3 1/3\" bays", temp.IntThreeBays.ToString());
+                    }
+                    else if (db.CPUs.Any(c => c.ItemID == _id))
+                    {
+                        CPU temp = db.CPUs.First(c => c.ItemID == _id);
+                        keyValuePairs.Add("Speed", temp.Speed);
+                        keyValuePairs.Add("Cores", temp.Cores.ToString());
+                        keyValuePairs.Add("Power", temp.Power.ToString() + " W");
+                    }
+                    else if (db.CPUCoolers.Any(c => c.ItemID == _id))
+                    {
+                        CPUCooler temp = db.CPUCoolers.First(c => c.ItemID == _id);
+                        keyValuePairs.Add("Fan RPM", temp.FanRPM);
+                        keyValuePairs.Add("Noise Level", temp.NoiseLevel.ToString() + " dB");
+                    }
+                    else if (db.GPUs.Any(c => c.ItemID == _id))
+                    {
+                        GPU temp = db.GPUs.First(c => c.ItemID == _id);
+                        keyValuePairs.Add("Series", temp.Series);
+                        keyValuePairs.Add("Chipset", temp.Chipset);
+                        keyValuePairs.Add("Memory", temp.Memory);
+                        keyValuePairs.Add("Core Clock", temp.CoreClock.ToString() + " GHz");
+                    }
+                    else if (db.Motherboards.Any(c => c.ItemID == _id))
+                    {
+                        Motherboard temp = db.Motherboards.First(c => c.ItemID == _id);
+                        keyValuePairs.Add("Socket", temp.Socket);
+                        keyValuePairs.Add("Form Factor", temp.FormFactor);
+                        keyValuePairs.Add("RAM Slots", temp.RamSlots.ToString());
+                        keyValuePairs.Add("Max RAM", temp.MaxRam);
+                    }
+                    else if (db.PSUs.Any(c => c.ItemID == _id))
+                    {
+                        PSU temp = db.PSUs.First(c => c.ItemID == _id);
+                        keyValuePairs.Add("Series", temp.Series);
+                        keyValuePairs.Add("Form", temp.Form);
+                        keyValuePairs.Add("Efficiency", temp.Efficiency);
+                        keyValuePairs.Add("Watts", temp.Watts.ToString() + " W");
+                        keyValuePairs.Add("Modular", temp.Modular);
+                    }
+                    else if (db.RAMs.Any(c => c.ItemID == _id))
+                    {
+                        RAM temp = db.RAMs.First(c => c.ItemID == _id);
+                        keyValuePairs.Add("Speed", temp.Speed);
+                        keyValuePairs.Add("Type", temp.Type);
+                        keyValuePairs.Add("CAS", temp.CAS.ToString());
+                        keyValuePairs.Add("Modules", temp.Modules);
+                        keyValuePairs.Add("Size", temp.Size);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+
+                return keyValuePairs;
+            }
+        }
+
 
         #endregion
 
