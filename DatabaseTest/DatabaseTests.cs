@@ -8,6 +8,7 @@ namespace DatabaseTests
     [TestClass]
     public class AddToDatabase
     {
+
         DatabaseController DC = new DatabaseController();
 
         [TestMethod]

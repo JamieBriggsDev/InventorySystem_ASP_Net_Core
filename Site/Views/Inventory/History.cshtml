@@ -1,0 +1,36 @@
+﻿@model  IEnumerable<Database.Model.Transaction>
+
+@{
+    ViewData["Title"] = "History";
+}
+
+<h2>History</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Item.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Change)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Time)
+        </th>
+    </tr>
+    @foreach (var transaction in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => transaction.Item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => transaction.Change)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => transaction.Time)
+            </td>
+        </tr>
+    }
+
+</table>

@@ -9,6 +9,7 @@ namespace Database
 {
     class InventorySystemContext : DbContext
     {
+
         public DbSet<Item> Items { get; set; }
 
         public DbSet<CPU> CPUs { get; set; }

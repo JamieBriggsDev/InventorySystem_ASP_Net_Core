@@ -14,7 +14,7 @@ namespace Database.Model
 
         [ForeignKey("Item")]
         public int ItemID { get; set; }
-        public Item Item { get; set; }
+        public virtual Item Item { get; set; }
 
         public int Change { get; set; }
 

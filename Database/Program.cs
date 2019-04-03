@@ -11,6 +11,7 @@ namespace Database
         
         static void Main(string[] args)
         {
+            Environment.SetEnvironmentVariable("USERPROFILE", "c:\\temp");
 
             DatabaseController DC = new DatabaseController();
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Text;
 
 namespace Database
@@ -29,15 +30,19 @@ namespace Database
                     temp.ID = db.Items.Count();
                     // Add Item and save changes.
                     db.Items.Add(temp);
-                    db.SaveChanges();
+                    //db.SaveChanges();
+
 
                     Transaction transaction = new Transaction
                     {
-                        ItemID = db.Items.First(i => i.Name == temp.Name).ID,
+                        Item = temp,
+                        ItemID = temp.ID,
                         Change = temp.Quantity,
                         Time = DateTime.Now,
                         Reason = "Added entry to inventory"
                     };
+
+                    
 
                     db.Transactions.Add(transaction);
                     db.SaveChanges();
@@ -340,6 +345,27 @@ namespace Database
             }
         }
 
+        //////////////////
+        ///To List Methods
+        //////////////////
+
+        public List<Item> GetItems()
+        {
+            using (var db = new InventorySystemContext())
+            {
+                return db.Items.ToList();
+            }
+        }
+
+        public List<Transaction> GetTransactions()
+        {
+            using (var db = new InventorySystemContext())
+            {
+                var transactions = db.Transactions.Include(t => t.Item);
+                return transactions.ToList();
+                
+            }
+        }
 
         // Print Methods
 
