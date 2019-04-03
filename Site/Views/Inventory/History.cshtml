@@ -9,7 +9,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Item.Name)
+            @Html.DisplayNameFor(model => model.Item)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Change)
@@ -17,18 +17,24 @@
         <th>
             @Html.DisplayNameFor(model => model.Time)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reason)
+        </th>
     </tr>
     @foreach (var transaction in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => transaction.Item.Name)
+                @Html.DisplayFor(modelItem => transaction.Item)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => transaction.Change)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => transaction.Time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => transaction.Reason)
             </td>
         </tr>
     }

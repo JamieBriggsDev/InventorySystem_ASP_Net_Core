@@ -35,8 +35,7 @@ namespace Database
 
                     Transaction transaction = new Transaction
                     {
-                        Item = temp,
-                        ItemID = temp.ID,
+                        Item = temp.Name,
                         Change = temp.Quantity,
                         Time = DateTime.Now,
                         Reason = "Added entry to inventory"
@@ -345,10 +344,76 @@ namespace Database
             }
         }
 
+        #region Delete Method
+        public bool DeleteItem(int _id)
+        {
+            using (var db = new InventorySystemContext())
+            {
+                if(db.Items.Any(i => i.ID == _id))
+                {
+                    Item item = db.Items.First(i => i.ID == _id);
+                    // Check all lists and delete where necessary
+                    // Case
+                    if (db.Cases.Any(c => c.ItemID == _id))
+                    {
+                        db.Cases.Remove(db.Cases.First(c => c.ItemID == _id));
+                    }
+                    else if(db.CPUs.Any(c => c.ItemID == _id))
+                    {
+                        db.CPUs.Remove(db.CPUs.First(c => c.ItemID == _id));
+                    }
+                    else if (db.CPUCoolers.Any(c => c.ItemID == _id))
+                    {
+                        db.CPUCoolers.Remove(db.CPUCoolers.First(c => c.ItemID == _id));
+                    }
+                    else if (db.GPUs.Any(c => c.ItemID == _id))
+                    {
+                        db.GPUs.Remove(db.GPUs.First(c => c.ItemID == _id));
+                    }
+                    else if (db.Motherboards.Any(c => c.ItemID == _id))
+                    {
+                        db.Motherboards.Remove(db.Motherboards.First(c => c.ItemID == _id));
+                    }
+                    else if (db.PSUs.Any(c => c.ItemID == _id))
+                    {
+                        db.PSUs.Remove(db.PSUs.First(c => c.ItemID == _id));
+                    }
+                    else if (db.RAMs.Any(c => c.ItemID == _id))
+                    {
+                        db.RAMs.Remove(db.RAMs.First(c => c.ItemID == _id));
+                    }
+
+                    // Record transaction
+                    Transaction transaction = new Transaction()
+                    {
+                        Item = item.Name,
+                        Change = -item.Quantity,
+                        Time = DateTime.Now,
+                        Reason = "Removed from database"
+                    };
+                    db.Transactions.Add(transaction);
+
+                    // Remove item from database
+                    db.Items.Remove(item);
+
+                    // Save changes
+                    db.SaveChanges();
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        #endregion
+
         //////////////////
         ///To List Methods
         //////////////////
-
+        #region To List Methods
         public List<Item> GetItems()
         {
             using (var db = new InventorySystemContext())
@@ -361,14 +426,14 @@ namespace Database
         {
             using (var db = new InventorySystemContext())
             {
-                var transactions = db.Transactions.Include(t => t.Item);
+                var transactions = db.Transactions;
                 return transactions.ToList();
                 
             }
         }
-
+        #endregion
         // Print Methods
-
+        #region Print Methods
         /// <summary>
         /// Prints all Items.
         /// </summary>
@@ -677,5 +742,7 @@ namespace Database
                 }
             }
         }
+
+        #endregion
     }
 }
