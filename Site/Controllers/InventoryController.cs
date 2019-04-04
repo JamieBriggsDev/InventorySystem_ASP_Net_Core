@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -78,6 +79,22 @@ namespace Site.Controllers
 
 
             return View(keyValuePairs);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            DatabaseController db = new DatabaseController();
+            Item item = db.GetItems().First(i => i.ID == id);
+
+            return View(item);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Item item)
+        {
+            DatabaseController db = new DatabaseController();
+            db.EditItem(item);
+            return RedirectToAction("Index");
         }
 
     }

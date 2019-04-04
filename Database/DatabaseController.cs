@@ -345,6 +345,53 @@ namespace Database
         }
 
 
+        #region Edit Method
+        public bool EditItem(Item item)
+        {
+            using (var db = new InventorySystemContext())
+            {
+                int change = 0;
+                var old = db.Items.First(i => i.ID == item.ID).Quantity;
+                change = item.Quantity - old;
+
+
+
+                if (change != 0)
+                {
+                    Transaction transaction = new Transaction()
+                    {
+                        Change = change,
+                        Item = item.Name,
+                        Reason = "Stock Updated",
+                        Time = DateTime.Now
+                    };
+                    db.Transactions.Add(transaction);
+
+                }
+
+                db.SaveChanges();
+            }
+            using (var db = new InventorySystemContext())
+            {
+
+
+
+                db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                //db.Items.Add(item);
+
+
+                db.SaveChanges();
+
+
+            }
+
+            
+
+            return true;
+        }
+
+        #endregion
+
         #region Delete Method
         public bool DeleteItem(int _id)
         {
