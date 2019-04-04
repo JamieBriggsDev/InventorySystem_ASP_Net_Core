@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Database.Model.Item>
+﻿@model Site.Models.ItemViewModel
+
+@using Database.Model
 
 @{
     ViewBag.Title = "Index";
@@ -9,21 +11,45 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+<form asp-controller="Inventory" asp-action="Index" method="get">
+    <p>
+        <select asp-for="ComponentCategory" name="ComponentCategory">
+            <option value="">All</option>
+            <option value="">Case</option>
+            <option value="CPU">CPU</option>
+            <option value="CPUCooler">CPUCooler</option>
+            <option value="GPU">GPU</option>
+            <option value="Motherboard">Motherboard</option>
+            <option value="PSU">PSU</option>
+            <option value="RAM">RAM</option>
+        </select>
+
+
+        Search: <input type="text" name="SearchString" value="@Model.SearchString">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Items[0].Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            @Html.DisplayNameFor(model => model.Items[0].Price)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Quantity)
+            @Html.DisplayNameFor(model => model.Items[0].Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items[0].Component)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Items) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
@@ -33,6 +59,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Component)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |

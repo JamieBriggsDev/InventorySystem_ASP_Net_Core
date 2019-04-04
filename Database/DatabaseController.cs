@@ -9,6 +9,7 @@ namespace Database
 {
     public class DatabaseController
     {
+        #region Add Item functions
 
         /// <summary>
         /// Adds Item to database.
@@ -32,22 +33,20 @@ namespace Database
                     db.Items.Add(temp);
                     //db.SaveChanges();
 
-
-                    Transaction transaction = new Transaction
-                    {
-                        Item = temp.Name,
-                        Change = temp.Quantity,
-                        Time = DateTime.Now,
-                        Reason = "Added entry to inventory"
-                    };
-
-                    
-
-                    db.Transactions.Add(transaction);
+                    //db.Transactions.Add(transaction);
                     db.SaveChanges();
-
                     
                 }
+                Transaction transaction = new Transaction
+                {
+                    Item = temp.Name,
+                    Change = temp.Quantity,
+                    Time = DateTime.Now,
+                    Reason = "Added entry to inventory"
+                };
+
+                AddTransaction(transaction);
+
 
             }
             catch (Exception e)
@@ -224,7 +223,6 @@ namespace Database
             return true;
         }
 
-
         public bool AddRAM(Item _item, RAM _ram)
         {
             try
@@ -333,6 +331,28 @@ namespace Database
             return true;
         }
 
+        public bool AddTransaction(Transaction transaction)
+        {
+            try
+            {
+                using (var db = new InventorySystemContext())
+                {
+                    db.Transactions.Add(transaction);
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+#endregion
+
+        #region Check if items exists
+
         public bool ItemExists(string _name)
         {
             using (var db = new InventorySystemContext())
@@ -343,6 +363,30 @@ namespace Database
                     return false;
             }
         }
+
+        #endregion
+
+        #region Search Items
+        public List<Item> FindItems(string type, string name)
+        {
+            using (var db = new InventorySystemContext())
+            {
+                List<Item> items = new List<Item>();
+
+                if (name != null)
+                    items = db.Items.Where(i => i.Name.Contains(name)).ToList();
+                else
+                    items = GetItems();
+
+                // Get component if required
+                if (type != null && type != "")
+                    items = items.Where(i => i.Component.ToString() == type).ToList();
+
+                return items;
+            }
+        }
+
+        #endregion
 
 
         #region Edit Method
@@ -401,34 +445,31 @@ namespace Database
                 {
                     Item item = db.Items.First(i => i.ID == _id);
                     // Check all lists and delete where necessary
-                    // Case
-                    if (db.Cases.Any(c => c.ItemID == _id))
+                    switch(item.Component)
                     {
-                        db.Cases.Remove(db.Cases.First(c => c.ItemID == _id));
-                    }
-                    else if(db.CPUs.Any(c => c.ItemID == _id))
-                    {
-                        db.CPUs.Remove(db.CPUs.First(c => c.ItemID == _id));
-                    }
-                    else if (db.CPUCoolers.Any(c => c.ItemID == _id))
-                    {
-                        db.CPUCoolers.Remove(db.CPUCoolers.First(c => c.ItemID == _id));
-                    }
-                    else if (db.GPUs.Any(c => c.ItemID == _id))
-                    {
-                        db.GPUs.Remove(db.GPUs.First(c => c.ItemID == _id));
-                    }
-                    else if (db.Motherboards.Any(c => c.ItemID == _id))
-                    {
-                        db.Motherboards.Remove(db.Motherboards.First(c => c.ItemID == _id));
-                    }
-                    else if (db.PSUs.Any(c => c.ItemID == _id))
-                    {
-                        db.PSUs.Remove(db.PSUs.First(c => c.ItemID == _id));
-                    }
-                    else if (db.RAMs.Any(c => c.ItemID == _id))
-                    {
-                        db.RAMs.Remove(db.RAMs.First(c => c.ItemID == _id));
+                        case (Model.Type.CASE):
+                            db.Cases.Remove(db.Cases.First(c => c.ItemID == _id));
+                            break;
+                        case (Model.Type.CPU):
+                            db.CPUs.Remove(db.CPUs.First(c => c.ItemID == _id));
+                            break;
+                        case (Model.Type.CPUCOOLER):
+                            db.CPUCoolers.Remove(db.CPUCoolers.First(c => c.ItemID == _id));
+                            break;
+                        case (Model.Type.GPU):
+                            db.GPUs.Remove(db.GPUs.First(c => c.ItemID == _id));
+                            break;
+                        case (Model.Type.MOTHERBOARD):
+                            db.Motherboards.Remove(db.Motherboards.First(c => c.ItemID == _id));
+                            break;
+                        case (Model.Type.PSU):
+                            db.PSUs.Remove(db.PSUs.First(c => c.ItemID == _id));
+                            break;
+                        case (Model.Type.RAM):
+                            db.RAMs.Remove(db.RAMs.First(c => c.ItemID == _id));
+                            break;
+                        default:
+                            return false;
                     }
 
                     // Record transaction
@@ -458,7 +499,6 @@ namespace Database
 
         #endregion
 
-
         #region Get object method
         public Dictionary<string, string> GetObject(int _id)
         {
@@ -471,70 +511,59 @@ namespace Database
                     Item item = db.Items.First(i => i.ID == _id);
                     // Check all lists and delete where necessary
                     // Case
-                    if (db.Cases.Any(c => c.ItemID == _id))
+                    switch (item.Component)
                     {
-                        Case temp = db.Cases.First(c => c.ItemID == _id);
-                        keyValuePairs.Add("Type", temp.Type.ToString());
-                        keyValuePairs.Add("External 5 1/4\" bays", temp.ExtFiveBays.ToString());
-                        keyValuePairs.Add("Internal 3 1/3\" bays", temp.IntThreeBays.ToString());
+                        case (Model.Type.CASE):
+                            Case @case = db.Cases.First(c => c.ItemID == _id);
+                            keyValuePairs.Add("Type", @case.Type.ToString());
+                            keyValuePairs.Add("External 5 1/4\" bays", @case.ExtFiveBays.ToString());
+                            keyValuePairs.Add("Internal 3 1/3\" bays", @case.IntThreeBays.ToString());
+                            break;
+                        case (Model.Type.CPU):
+                            CPU cpu = db.CPUs.First(c => c.ItemID == _id);
+                            keyValuePairs.Add("Power", cpu.Power.ToString() + " W");
+                            keyValuePairs.Add("Speed", cpu.Speed.ToString() + " GHz");
+                            break;
+                        case (Model.Type.CPUCOOLER):
+                            CPUCooler cpuCooler = db.CPUCoolers.First(c => c.ItemID == _id);
+                            keyValuePairs.Add("Fan RPM", cpuCooler.FanRPM);
+                            keyValuePairs.Add("Noise Level", cpuCooler.NoiseLevel.ToString() + " dB");
+                            break;
+                        case (Model.Type.GPU):
+                            GPU gpu = db.GPUs.First(c => c.ItemID == _id);
+                            keyValuePairs.Add("Series", gpu.Series);
+                            keyValuePairs.Add("Chipset", gpu.Chipset);
+                            keyValuePairs.Add("Memory", gpu.Memory);
+                            keyValuePairs.Add("Core Clock", gpu.CoreClock.ToString() + " GHz");
+                            break;
+                        case (Model.Type.MOTHERBOARD):
+                            Motherboard motherboard = db.Motherboards.First(c => c.ItemID == _id);
+                            keyValuePairs.Add("Socket", motherboard.Socket);
+                            keyValuePairs.Add("Form Factor", motherboard.FormFactor);
+                            keyValuePairs.Add("RAM Slots", motherboard.RamSlots.ToString());
+                            keyValuePairs.Add("Max RAM", motherboard.MaxRam);
+                            break;
+                        case (Model.Type.PSU):
+                            PSU psu = db.PSUs.First(c => c.ItemID == _id);
+                            keyValuePairs.Add("Series", psu.Series);
+                            keyValuePairs.Add("Form", psu.Form);
+                            keyValuePairs.Add("Efficiency", psu.Efficiency);
+                            keyValuePairs.Add("Watts", psu.Watts.ToString() + " W");
+                            keyValuePairs.Add("Modular", psu.Modular);
+                            break;
+                        case (Model.Type.RAM):
+                            RAM ram = db.RAMs.First(c => c.ItemID == _id);
+                            keyValuePairs.Add("Speed", ram.Speed);
+                            keyValuePairs.Add("Type", ram.Type);
+                            keyValuePairs.Add("CAS", ram.CAS.ToString());
+                            keyValuePairs.Add("Modules", ram.Modules);
+                            keyValuePairs.Add("Size", ram.Size);
+                            break;
+                        default:
+                            return keyValuePairs;
                     }
-                    else if (db.CPUs.Any(c => c.ItemID == _id))
-                    {
-                        CPU temp = db.CPUs.First(c => c.ItemID == _id);
-                        keyValuePairs.Add("Speed", temp.Speed);
-                        keyValuePairs.Add("Cores", temp.Cores.ToString());
-                        keyValuePairs.Add("Power", temp.Power.ToString() + " W");
-                    }
-                    else if (db.CPUCoolers.Any(c => c.ItemID == _id))
-                    {
-                        CPUCooler temp = db.CPUCoolers.First(c => c.ItemID == _id);
-                        keyValuePairs.Add("Fan RPM", temp.FanRPM);
-                        keyValuePairs.Add("Noise Level", temp.NoiseLevel.ToString() + " dB");
-                    }
-                    else if (db.GPUs.Any(c => c.ItemID == _id))
-                    {
-                        GPU temp = db.GPUs.First(c => c.ItemID == _id);
-                        keyValuePairs.Add("Series", temp.Series);
-                        keyValuePairs.Add("Chipset", temp.Chipset);
-                        keyValuePairs.Add("Memory", temp.Memory);
-                        keyValuePairs.Add("Core Clock", temp.CoreClock.ToString() + " GHz");
-                    }
-                    else if (db.Motherboards.Any(c => c.ItemID == _id))
-                    {
-                        Motherboard temp = db.Motherboards.First(c => c.ItemID == _id);
-                        keyValuePairs.Add("Socket", temp.Socket);
-                        keyValuePairs.Add("Form Factor", temp.FormFactor);
-                        keyValuePairs.Add("RAM Slots", temp.RamSlots.ToString());
-                        keyValuePairs.Add("Max RAM", temp.MaxRam);
-                    }
-                    else if (db.PSUs.Any(c => c.ItemID == _id))
-                    {
-                        PSU temp = db.PSUs.First(c => c.ItemID == _id);
-                        keyValuePairs.Add("Series", temp.Series);
-                        keyValuePairs.Add("Form", temp.Form);
-                        keyValuePairs.Add("Efficiency", temp.Efficiency);
-                        keyValuePairs.Add("Watts", temp.Watts.ToString() + " W");
-                        keyValuePairs.Add("Modular", temp.Modular);
-                    }
-                    else if (db.RAMs.Any(c => c.ItemID == _id))
-                    {
-                        RAM temp = db.RAMs.First(c => c.ItemID == _id);
-                        keyValuePairs.Add("Speed", temp.Speed);
-                        keyValuePairs.Add("Type", temp.Type);
-                        keyValuePairs.Add("CAS", temp.CAS.ToString());
-                        keyValuePairs.Add("Modules", temp.Modules);
-                        keyValuePairs.Add("Size", temp.Size);
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-                else
-                {
-                    return null;
-                }
 
+                }
                 return keyValuePairs;
             }
         }
@@ -542,9 +571,6 @@ namespace Database
 
         #endregion
 
-        //////////////////
-        ///To List Methods
-        //////////////////
         #region To List Methods
         public List<Item> GetItems()
         {
@@ -564,7 +590,7 @@ namespace Database
             }
         }
         #endregion
-        // Print Methods
+
         #region Print Methods
         /// <summary>
         /// Prints all Items.

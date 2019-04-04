@@ -7,6 +7,7 @@ using System.Text;
 
 namespace Database.Model
 {
+    public enum Type { CASE, CPU, CPUCOOLER, GPU, MOTHERBOARD, PSU, RAM, OTHER};
     public class Item
     {
         [Key]
@@ -18,6 +19,10 @@ namespace Database.Model
 
         public int Quantity { get; set; }
 
+        public Type Component { get; set; }
+
         public virtual List<Item> Items { get; set; }
+
+
     }
 }

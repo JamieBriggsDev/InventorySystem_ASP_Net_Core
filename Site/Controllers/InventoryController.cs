@@ -3,21 +3,33 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Database;
 using Database.Model;
+using Site.Models;
 
 namespace Site.Controllers
 {
     public class InventoryController : Controller
     {
-        public ActionResult Index()
+        //public ActionResult Index(string componentCategory, string searchString)
+        public ActionResult Index(ItemViewModel model)
         {
             ViewBag.Message = "Index Page!";
             DatabaseController db = new DatabaseController();
-            var Items = db.GetItems();
-            return View(Items);
+            //var allItems = db.FindItems(componentCategory, searchString);
+            var allItems = db.FindItems(model.ComponentCategory, model.SearchString);
+
+            ItemViewModel items = new ItemViewModel()
+            {
+                ComponentCategory = model.ComponentCategory,
+                SearchString = model.SearchString,
+                Items = allItems
+            };
+
+            return View(items);
         }
 
         public ActionResult History()
@@ -66,8 +78,10 @@ namespace Site.Controllers
 
             Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
             keyValuePairs.Add("Name", temp.Name);
+            keyValuePairs.Add("Component Type", temp.Component.ToString());
             keyValuePairs.Add("Price", "£" + temp.Price.ToString());
             keyValuePairs.Add("Quantity", temp.Quantity.ToString());
+
 
             foreach(var item in db.GetObject(id))
             {
@@ -94,6 +108,17 @@ namespace Site.Controllers
         {
             DatabaseController db = new DatabaseController();
             db.EditItem(item);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(Item item)
+        {
             return RedirectToAction("Index");
         }
 

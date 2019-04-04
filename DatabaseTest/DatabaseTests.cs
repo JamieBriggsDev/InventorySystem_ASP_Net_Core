@@ -11,21 +11,6 @@ namespace DatabaseTests
 
         DatabaseController DC = new DatabaseController();
 
-        [TestMethod]
-        public void AddItem()
-        {
-            // Test blank Item
-            Item item = new Item
-            {
-                Name = "Item 1",
-                Price = 19.99m,
-                Quantity = 6
-            };
-
-            DC.AddItem(item);
-
-            Assert.IsTrue(DC.ItemExists("Item 1"), "Can't find test Item in database.");
-        }
 
         [TestMethod]
         public void AddCPU()
@@ -36,7 +21,8 @@ namespace DatabaseTests
             {
                 Name = "i5 4690k",
                 Price = 89.99m,
-                Quantity = 2
+                Quantity = 2,
+                Component = Database.Model.Type.CPU
             };
             CPU cpu = new CPU
             {
@@ -60,7 +46,8 @@ namespace DatabaseTests
             {
                 Name = "Cooler Master Hyper 212 EVO",
                 Price = 27.95m,
-                Quantity = 3
+                Quantity = 3,
+                Component = Database.Model.Type.CPUCOOLER
             };
             CPUCooler cpuCooler = new CPUCooler
             {
@@ -82,7 +69,8 @@ namespace DatabaseTests
             {
                 Name = "Gigabyte - X470 AORUS ULTRA GAMING ATX AM4 Motherboard",
                 Price = 134.95m,
-                Quantity = 7
+                Quantity = 7,
+                Component = Database.Model.Type.MOTHERBOARD
             };
             Motherboard motherboard = new Motherboard
             {
@@ -105,7 +93,8 @@ namespace DatabaseTests
             {
                 Name = "Gigabyte GV-N208TAORUSX W-11GC",
                 Price = 1175.60m,
-                Quantity = 3
+                Quantity = 3,
+                Component = Database.Model.Type.GPU
             };
             GPU gpu = new GPU
             {
@@ -128,7 +117,8 @@ namespace DatabaseTests
             {
                 Name = "Corsair Vengance LPX",
                 Price = 95.94m,
-                Quantity = 1
+                Quantity = 1,
+                Component = Database.Model.Type.RAM
             };
             RAM ram = new RAM
             {
@@ -153,7 +143,8 @@ namespace DatabaseTests
             {
                 Name = "NZXT Case",
                 Price = 97.99m,
-                Quantity = 3
+                Quantity = 3,
+                Component = Database.Model.Type.CASE
             };
             Case @case = new Case
             {
@@ -176,7 +167,8 @@ namespace DatabaseTests
             {
                 Name = "EVGA SuperNOVA 750",
                 Price = 93.16m,
-                Quantity = 2
+                Quantity = 2,
+                Component = Database.Model.Type.PSU
             };
             PSU psu = new PSU
             {
