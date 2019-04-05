@@ -113,13 +113,15 @@ namespace Site.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            CreateViewModel model = new CreateViewModel();
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Create(Item item)
+        public ActionResult Create(CreateViewModel item)
         {
-            return RedirectToAction("Index");
+
+            return View("~/Create/Case", item);
         }
 
     }
