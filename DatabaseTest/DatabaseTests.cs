@@ -32,7 +32,7 @@ namespace DatabaseTests
                 Item = item
             };
 
-            Assert.IsTrue(DC.AddCPU(item, cpu), "Failed to add test CPU.");
+            Assert.IsTrue(DC.AddItem(item, cpu), "Failed to add test CPU.");
 
             Assert.IsTrue(DC.ItemExists("i5 4690k"), "Can't find test CPU in database.");
         }
@@ -55,7 +55,7 @@ namespace DatabaseTests
                 NoiseLevel = 37d
             };
 
-            Assert.IsTrue(DC.AddCPUCooler(item, cpuCooler), "Failed to add test CPU Cooler.");
+            Assert.IsTrue(DC.AddItem(item, cpuCooler), "Failed to add test CPU Cooler.");
 
             Assert.IsTrue(DC.ItemExists("Cooler Master Hyper 212 EVO"), "Can't find test CPU Cooler in database.");
         }
@@ -80,7 +80,7 @@ namespace DatabaseTests
                 MaxRam = "64GB"
             };
 
-            Assert.IsTrue(DC.AddMotherboard(item, motherboard), "Failed to add test motherboard.");
+            Assert.IsTrue(DC.AddItem(item, motherboard), "Failed to add test motherboard.");
 
             Assert.IsTrue(DC.ItemExists("Gigabyte - X470 AORUS ULTRA GAMING ATX AM4 Motherboard"), "Can't find test motherboard in database.");
         }
@@ -104,7 +104,7 @@ namespace DatabaseTests
                 CoreClock = 1.545
             };
 
-            Assert.IsTrue(DC.AddGPU(item, gpu), "Failed to add test gpu.");
+            Assert.IsTrue(DC.AddItem(item, gpu), "Failed to add test gpu.");
 
             Assert.IsTrue(DC.ItemExists("Gigabyte GV-N208TAORUSX W-11GC"), "Can't find test gpu in database.");
         }
@@ -129,7 +129,7 @@ namespace DatabaseTests
                 Size = "16GB"
             };
 
-            Assert.IsTrue(DC.AddRAM(item, ram), "Failed to add test RAM.");
+            Assert.IsTrue(DC.AddItem(item, ram), "Failed to add test RAM.");
 
             Assert.IsTrue(DC.ItemExists("Corsair Vengance LPX"));
 
@@ -153,7 +153,7 @@ namespace DatabaseTests
                 IntThreeBays = 3
             };
 
-            Assert.IsTrue(DC.AddCase(item, @case), "Failed to add test Case.");
+            Assert.IsTrue(DC.AddItem(item, @case), "Failed to add test Case.");
 
             Assert.IsTrue(DC.ItemExists("NZXT Case"));
 
@@ -180,7 +180,7 @@ namespace DatabaseTests
 
             };
 
-            Assert.IsTrue(DC.AddPSU(item, psu), "Failed to add test PSU.");
+            Assert.IsTrue(DC.AddItem(item, psu), "Failed to add test PSU.");
 
             Assert.IsTrue(DC.ItemExists("EVGA SuperNOVA 750"));
 

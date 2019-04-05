@@ -45,7 +45,7 @@ namespace Database
                     Reason = "Added entry to inventory"
                 };
 
-                AddTransaction(transaction);
+                AddItem(transaction);
 
 
             }
@@ -64,7 +64,7 @@ namespace Database
         /// <param name="_item">Item details of CPU.</param>
         /// <param name="_cpu">CPU details.</param>
         /// <returns></returns>
-        public bool AddCPU(Item _item, CPU _cpu)
+        public bool AddItem(Item _item, CPU _cpu)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace Database
         /// <param name="_item">Item details of CPU.</param>
         /// <param name="_cpuCooler"></param>
         /// <returns></returns>
-        public bool AddCPUCooler(Item _item, CPUCooler _cpuCooler)
+        public bool AddItem(Item _item, CPUCooler _cpuCooler)
         {
             try
             {
@@ -151,7 +151,7 @@ namespace Database
         /// <param name="_item">Item details of CPU.</param>
         /// <param name="_motherboard"></param>
         /// <returns></returns>
-        public bool AddMotherboard(Item _item, Motherboard _motherboard)
+        public bool AddItem(Item _item, Motherboard _motherboard)
         {
             try
             {
@@ -187,7 +187,7 @@ namespace Database
             return true;
         }
 
-        public bool AddGPU(Item _item, GPU _gpu)
+        public bool AddItem(Item _item, GPU _gpu)
         {
             try
             {
@@ -223,7 +223,7 @@ namespace Database
             return true;
         }
 
-        public bool AddRAM(Item _item, RAM _ram)
+        public bool AddItem(Item _item, RAM _ram)
         {
             try
             {
@@ -259,7 +259,7 @@ namespace Database
             return true;
         }
 
-        public bool AddCase(Item _item, Case _case)
+        public bool AddItem(Item _item, Case _case)
         {
             try
             {
@@ -295,7 +295,7 @@ namespace Database
             return true;
         }
 
-        public bool AddPSU(Item _item, PSU _psu)
+        public bool AddItem(Item _item, PSU _psu)
         {
             try
             {
@@ -331,7 +331,7 @@ namespace Database
             return true;
         }
 
-        public bool AddTransaction(Transaction transaction)
+        public bool AddItem(Transaction transaction)
         {
             try
             {

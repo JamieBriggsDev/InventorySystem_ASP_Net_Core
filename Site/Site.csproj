@@ -181,9 +181,14 @@
     <Content Include="Views\Inventory\Details.cshtml" />
     <Content Include="Views\Inventory\Index.cshtml" />
     <Content Include="Views\Inventory\Edit.cshtml" />
-    <Content Include="Views\Inventory\Create.cshtml" />
-    <Content Include="Views\Create\Case.cshtml" />
     <Content Include="Views\Create\Index.cshtml" />
+    <Content Include="Views\Create\Case.cshtml" />
+    <Content Include="Views\Create\CPU.cshtml" />
+    <Content Include="Views\Create\CPUCooler.cshtml" />
+    <Content Include="Views\Create\GPU.cshtml" />
+    <Content Include="Views\Create\Motherboard.cshtml" />
+    <Content Include="Views\Create\PSU.cshtml" />
+    <Content Include="Views\Create\RAM.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

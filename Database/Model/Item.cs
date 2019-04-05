@@ -7,7 +7,8 @@ using System.Text;
 
 namespace Database.Model
 {
-    public enum Type { CASE, CPU, CPUCOOLER, GPU, MOTHERBOARD, PSU, RAM, OTHER};
+    public enum Type { CASE, CPU, CPUCOOLER, GPU, MOTHERBOARD, PSU, RAM};
+
     public class Item
     {
         [Key]
