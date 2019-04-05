@@ -12,17 +12,11 @@ namespace Site.Controllers
     public class CreateController : Controller
     {
 
-        public string Index()
-        {
-            //CreateViewModel model = new CreateViewModel();
-            return "This is Index action method of CreateController";
-        }
-
         // Required for saving changes
         private static CreateViewModel newItem;
 
         #region Create
-        public ActionResult Create()
+        public ActionResult Index()
         {
 
             newItem = new CreateViewModel();
@@ -31,7 +25,7 @@ namespace Site.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Item item)
+        public ActionResult Index(Item item)
         {
             
             newItem.Item = item;
