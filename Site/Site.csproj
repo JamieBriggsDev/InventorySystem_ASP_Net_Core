@@ -135,6 +135,7 @@
     <Compile Include="Controllers\CreateController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\POSController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -189,6 +190,7 @@
     <Content Include="Views\Create\Motherboard.cshtml" />
     <Content Include="Views\Create\PSU.cshtml" />
     <Content Include="Views\Create\RAM.cshtml" />
+    <Content Include="Views\POS\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
