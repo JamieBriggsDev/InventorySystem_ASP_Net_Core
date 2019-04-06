@@ -1,4 +1,5 @@
 ﻿using Database;
+using Site.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,18 @@ namespace Site.Controllers
         {
             DatabaseController db = new DatabaseController();
             var items = db.GetItems();
-            return View(items);
+
+            POSViewModel posVM = new POSViewModel();
+            posVM.Items = items;
+            return View(posVM);
+        }
+
+        [HttpPost]
+        public ActionResult Index(POSViewModel posVM)
+        {
+            var values = posVM.Items;
+
+            return View(posVM);
         }
     }
 }
