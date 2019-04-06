@@ -20,12 +20,10 @@ namespace Site.Controllers
             ViewBag.Message = "Index Page!";
             DatabaseController db = new DatabaseController();
             //var allItems = db.FindItems(componentCategory, searchString);
-            var allItems = db.FindItems(model.ComponentCategory, model.SearchString);
+            var allItems = db.GetItems();
 
             ItemViewModel items = new ItemViewModel()
             {
-                ComponentCategory = model.ComponentCategory,
-                SearchString = model.SearchString,
                 Items = allItems
             };
 

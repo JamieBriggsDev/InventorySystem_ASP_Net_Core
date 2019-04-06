@@ -23,8 +23,5 @@ namespace Site.Models
             new SelectListItem { Value = "RAM", Text = "RAM" }
         };
 
-        public string ComponentCategory { get; set; }
-
-        public string SearchString { get; set; }
     }
 }

@@ -10,7 +10,11 @@
     @Html.ActionLink("Go Back", "Index", "Inventory")
 </h4>
 
-<table class="table">
+<p>
+    Search: <input type="text" id="myInput" onkeyup="filterTable()" name="SearchString">
+</p>
+
+<table class="table" id="tableContent">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Item)
@@ -27,7 +31,7 @@
     </tr>
     @foreach (var transaction in Model)
     {
-        <tr>
+        <tr id="mainTR">
             <td>
                 @Html.DisplayFor(modelItem => transaction.Item)
             </td>
@@ -44,3 +48,39 @@
     }
 
 </table>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function filterTable() {
+            // Declare variables
+            var input, filterInput, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            category = document.getElementById("myCategory")
+            filterInput = input.value.toUpperCase();
+            table = document.getElementById("tableContent");
+            tr = table.getElementsByTagName("tr");
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                td2 = tr[i].getElementsByTagName("td")[3];
+
+                // Check search query
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filterInput) > -1) {
+                        tr[i].style.display = "";
+                    }
+                    else {
+                        tr[i].style.display = "none";
+                    }
+                }
+
+
+
+            }
+        }
+    </script>
+
+}
