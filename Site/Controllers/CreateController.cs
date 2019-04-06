@@ -30,7 +30,7 @@ namespace Site.Controllers
             
             newItem.Item = item;
             if (item.Component == Database.Model.Type.CASE)
-                return RedirectToAction("Case", item);
+                return RedirectToAction("CASE");
             else if (item.Component == Database.Model.Type.CPU)
                 return RedirectToAction("CPU", item);
             else if (item.Component == Database.Model.Type.CPUCOOLER)
@@ -52,7 +52,7 @@ namespace Site.Controllers
         public ActionResult Case()
         {
             //CreateViewModel model = new CreateViewModel();
-            return View();
+            return View(newItem);
         }
 
         [HttpPost]
@@ -74,7 +74,7 @@ namespace Site.Controllers
         public ActionResult CPU()
         {
             //CreateViewModel model = new CreateViewModel();
-            return View();
+            return View(newItem);
         }
 
         [HttpPost]
@@ -96,7 +96,7 @@ namespace Site.Controllers
         public ActionResult CPUCooler()
         {
             //CreateViewModel model = new CreateViewModel();
-            return View();
+            return View(newItem);
         }
 
         [HttpPost]
@@ -118,7 +118,7 @@ namespace Site.Controllers
         public ActionResult GPU()
         {
             //CreateViewModel model = new CreateViewModel();
-            return View();
+            return View(newItem);
         }
 
         [HttpPost]
@@ -140,7 +140,7 @@ namespace Site.Controllers
         public ActionResult Motherboard()
         {
             //CreateViewModel model = new CreateViewModel();
-            return View();
+            return View(newItem);
         }
 
         [HttpPost]
@@ -162,7 +162,7 @@ namespace Site.Controllers
         public ActionResult PSU()
         {
             //CreateViewModel model = new CreateViewModel();
-            return View();
+            return View(newItem);
         }
 
         [HttpPost]
@@ -184,7 +184,7 @@ namespace Site.Controllers
         public ActionResult RAM()
         {
             //CreateViewModel model = new CreateViewModel();
-            return View();
+            return View(newItem);
         }
 
         [HttpPost]
