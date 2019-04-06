@@ -46,9 +46,8 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" />
-                    </div>
+                    <a type="button" href="javascript:document.forms[0].submit()" class="btn btn-primary btn-lg btn-block">Continue</a>
+                    <a type="button" href="~/Inventory/Index" class="btn btn-secondary btn-lg btn-block">Cancel</a>
                 </div>
 
 
@@ -57,6 +56,3 @@
         </div>
  }
 
-    <div>
-        @Html.ActionLink("Back to List", "Index", "Inventory")
-    </div>
