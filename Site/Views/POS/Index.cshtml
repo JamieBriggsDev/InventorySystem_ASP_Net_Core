@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>POS</h2>
+<h2>Point of Sale</h2>
 
 <p>
     Search: <input type="text" id="myInput" onkeyup="filterTable()" name="SearchString">
@@ -38,14 +38,24 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Component)
             </td>
-            <td>
-                <select id="@item.Name*Dropdown" name="@item.Name*Dropdown">
-                    @for (int i = 0; i < item.Quantity; i++)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-            </td>
+
+
+            @if (item.Quantity > 0)
+            {
+                <td>
+                    <select id="@item.Name*Dropdown" name="@item.Name*Dropdown">
+                        @for (int i = 0; i <= item.Quantity; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </td>
+            }
+            else
+            {
+                <td>n/a</td>
+            }
+
         </tr>
     }
 
