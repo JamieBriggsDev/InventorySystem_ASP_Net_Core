@@ -8,26 +8,43 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top ">
+    <div class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+            <div class="navbar-brand">
                 @Html.ActionLink("Inventory System", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("POS", "Index", "POS")</li>
-                    <li>@Html.ActionLink("Inventory", "Index", "Inventory")</li>
-                </ul>
-            </div>
+                @*<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>*@
+            @*<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>*@
+
+            
+            <ul class="nav navbar-nav">
+                <li class="nav-item">
+                    <a>@Html.ActionLink("POS", "Index", "POS")</a>
+                    <a>&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                    <a>@Html.ActionLink("Inventory", "Index", "Inventory")</a>
+                </li>
+            </ul>
+         
+
+            @*<div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("POS", "Index", "POS")</li>
+                        <li>@Html.ActionLink("Inventory", "Index", "Inventory")</li>
+                    </ul>
+                </div>*@
         </div>
     </div>
-    
+
+    <br />
+    <br />
+
     <div class="container body-content">
         @RenderBody()
         <hr />
