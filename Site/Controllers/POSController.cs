@@ -16,17 +16,27 @@ namespace Site.Controllers
             DatabaseController db = new DatabaseController();
             var items = db.GetItems();
 
+            //POSViewModel posVM = new POSViewModel();
             POSViewModel posVM = new POSViewModel();
-            posVM.Items = items;
-            return View(posVM);
+
+            foreach(var item in items)
+            {
+
+                posVM.Items.Add(item);
+                posVM.Quantitys.Add(0);
+                //posVM.Add(temp);
+            }
+            //posVM.Items = items;
+             return View(posVM);
         }
 
         [HttpPost]
         public ActionResult Index(POSViewModel posVM)
         {
-            var values = posVM.Items;
+            var values = posVM;
 
-            return View(posVM);
+            return RedirectToAction("Index", "Inventory");
         }
+
     }
 }

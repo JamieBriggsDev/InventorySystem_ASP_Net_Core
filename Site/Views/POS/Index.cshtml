@@ -2,8 +2,6 @@
 
 @{
     ViewBag.Title = "Index";
-    var first = Guid.NewGuid();
-    var second = Guid.NewGuid();
 }
 
 <h2>Point of Sale</h2>
@@ -28,49 +26,60 @@
             Quantity
         </th>
     </tr>
-    @using (Html.BeginForm(new { action = "Index", controller = "POS" }))
+    @using (Html.BeginForm())
     {
-        foreach (var item in Model.Items)
+        //foreach (var item in Model)
+        for(int i = 0; i < Model.Items.Count(); i++)
         {
             //@Model.Add(item.ID, 0);
             <tr id="mainTR">
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => Model.Items[i].Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Price)
+                    @Html.DisplayFor(modelItem => Model.Items[i].Price)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Component)
+                    @Html.DisplayFor(modelItem => Model.Items[i].Component)
                 </td>
 
 
-                @if (item.Quantity > 0)
-                {
-                    <td>
-                        <select id="@item.Name*Dropdown" name="@item.Name*Dropdown" onchange="addToDictionary(@item.ID, this.Value)">
-                            @for (int i = 0; i <= item.Quantity; i++)
-                            {
-                                <option value="@item.ID">@i</option>
-                            }
-                        </select>
-                    </td>
-                }
-                else
-                {
-                    <td>n/a</td>
-                }
+
+                <td>
+                    @*<select id="@item.Item.Name*Dropdown" name="@item.Item.Name*Dropdown" onchange="addToDictionary(@item.Item.ID, this.Value)">
+            @for (int i = 0; i <= item.Quantity; i++)
+            {
+                <option value="@item.Item.ID">@i</option>
+            }
+        </select>*@
+                    @Html.DropDownListFor(modelItem => Model.Quantitys[i],
+                        Enumerable.Range(0, Model.Items[i].Quantity + 1)
+                        .Select(a => new SelectListItem
+                        {
+                            Text = a.ToString(), Value = a.ToString()
+                        }))
+                    @*@Html.HiddenFor(modelItem => item.Quantity)
+
+                    @Html.HiddenFor(modelItem => item.Item)*@
+
+                    @Html.HiddenFor(modelItem => Model.Items[i])
+                </td>
+
 
             </tr>
         }
 
-        <p>
-            <input type="submit" value="Submit" />
-        </p>
+    @Html.SubmitButton("Save", new { @class = "btn btn-default", id = "create-button" })
+    <a type="button" href="javascript:document.forms[0].submit()" class="btn btn-primary btn-lg btn-block">Save</a>
     }
 
 
 </table>
+
+@*<p>
+    <input type="submit" value="Submit" />
+</p>*@
+
 
 
 @section Scripts
