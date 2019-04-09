@@ -24,14 +24,26 @@ namespace Site.Models
         //    return this;
         //}
 
-        public List<Item> Items { get; set; }
 
-        public List<int> Quantitys { get; set; }
 
-        public POSViewModel()
-        {
-            Items = new List<Item>();
-            Quantitys = new List<int>();
-        }
+
+        //public List<Item> Items { get; set; }
+
+        //public List<int> Quantitys { get; set; }
+
+        //public Dictionary<int, int> Quantities {get; set; }
+
+        //public POSViewModel()
+        //{
+        //    Items = new List<Item>();
+        //    Quantitys = new List<int>();
+        //    Quantities = new Dictionary<int, int>();
+        //}
+
+        public Item Item { get; set; }
+
+        public int ID { get; set; }
+
+        public int Quantity { get; set; }
     }
 }

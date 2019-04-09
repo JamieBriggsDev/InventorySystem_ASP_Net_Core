@@ -1,4 +1,4 @@
-﻿@model Site.Models.POSViewModel
+﻿@model IList<Site.Models.POSViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -6,80 +6,76 @@
 
 <h2>Point of Sale</h2>
 
+@*Search box*@
 <p>
     Search: <input type="text" id="myInput" onkeyup="filterTable()" name="SearchString">
 </p>
 
 
+
 <table class="table" id="tableContent">
+    @*Headers for list of items*@
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Items[0].Name)
+            @Html.DisplayNameFor(model => Model[0].Item.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Items[0].Price)
+            @Html.DisplayNameFor(model => Model[0].Item.Price)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Items[0].Component)
+            @Html.DisplayNameFor(model => Model[0].Item.Component)
         </th>
         <th>
             Quantity
         </th>
     </tr>
+    @*Begin form to find quantity of items to sell*@
     @using (Html.BeginForm())
     {
-        //foreach (var item in Model)
-        for(int i = 0; i < Model.Items.Count(); i++)
+        @*Loop through all items keeping index*@
+        for (int i = 0; i < Model.Count(); i++)
         {
-            //@Model.Add(item.ID, 0);
+            @*Display item variables*@
             <tr id="mainTR">
                 <td>
-                    @Html.DisplayFor(modelItem => Model.Items[i].Name)
+                    @Html.DisplayFor(modelItem => Model[i].Item.Name)
+                </td>
+                <td id="price">
+                    @Html.DisplayFor(modelItem => Model[i].Item.Price)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => Model.Items[i].Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.Items[i].Component)
+                    @Html.DisplayFor(modelItem => Model[i].Item.Component)
                 </td>
 
 
 
                 <td>
-                    @*<select id="@item.Item.Name*Dropdown" name="@item.Item.Name*Dropdown" onchange="addToDictionary(@item.Item.ID, this.Value)">
-            @for (int i = 0; i <= item.Quantity; i++)
-            {
-                <option value="@item.Item.ID">@i</option>
-            }
-        </select>*@
-                    @Html.DropDownListFor(modelItem => Model.Quantitys[i],
-                        Enumerable.Range(0, Model.Items[i].Quantity + 1)
-                        .Select(a => new SelectListItem
-                        {
-                            Text = a.ToString(), Value = a.ToString()
-                        }))
-                    @*@Html.HiddenFor(modelItem => item.Quantity)
+                    @*Display item quantity if quantity is over 0, else display "Out of Stock!"*@
+                    @if (Model[i].Item.Quantity > 0)
+                    {
+                        @Html.DropDownListFor(modelItem => Model[i].Quantity,
+                            Enumerable.Range(0, Model[i].Item.Quantity + 1).Select(a => new SelectListItem
+                            {
+                                Text = a.ToString(), Value = a.ToString()
+                            }), new { @name="QuantityDD", @onchange="UpdateConfirmButton()" })
+                    }
+                    else
+                    {
+                        @:Out of Stock!
+                    }
 
-                    @Html.HiddenFor(modelItem => item.Item)*@
-
-                    @Html.HiddenFor(modelItem => Model.Items[i])
+                    @Html.HiddenFor(modelItem => Model[i].ID)
                 </td>
 
 
             </tr>
         }
 
-    @Html.SubmitButton("Save", new { @class = "btn btn-default", id = "create-button" })
-    <a type="button" href="javascript:document.forms[0].submit()" class="btn btn-primary btn-lg btn-block">Save</a>
+        <a type="button" id="CheckoutButton" class="btn btn-secondary btn-lg btn-block">No Items Selected</a>
     }
 
 
 </table>
-
-@*<p>
-    <input type="submit" value="Submit" />
-</p>*@
-
 
 
 @section Scripts
@@ -96,7 +92,6 @@
             // Loop through all table rows, and hide those who don't match the search query
             for (i = 0; i < tr.length; i++) {
                 td = tr[i].getElementsByTagName("td")[0];
-                td2 = tr[i].getElementsByTagName("td")[3];
 
                 // Check search query
                 if (td) {
@@ -108,12 +103,42 @@
                         tr[i].style.display = "none";
                     }
                 }
-
-
-
             }
         }
+    </script>
 
+    <script type="text/javascript">
+        function UpdateConfirmButton() {
+            var total, dropdowns, table, button, tr;
+            total = 0;
+            price = 0.00;
+            table = document.getElementById("tableContent");
+            dropdowns = table.getElementsByTagName("select");
+            tr = table.getElementsByTagName("tr");
+            button = document.getElementById("CheckoutButton");
+            button.textContent = "No Items Selected";
+            button.removeAttribute("href");
+            button.className = "btn btn-secondary btn-lg btn-block";
+
+            // Get information
+            for (i = 0; i < tr.length; i++) {
+
+                // Total quantity
+                if (dropdowns[i]) {
+                    total = total + parseInt(dropdowns[i].value);
+                }
+
+            }
+
+
+
+            if (total > 0)
+            {
+                button.href = "javascript:document.forms[0].submit()";
+                button.textContent = "Confirm Purchase: (" + total.toString() + " Items)";
+                button.className = "btn btn-primary btn-lg btn-block";
+            }
+        }
     </script>
 
 }

@@ -13,19 +13,19 @@
 
 <a type="button" href="~/Inventory/History" class="btn btn-primary">History</a>
 
-</p>
+<p />
 
 
-@*<form asp-controller="Inventory" asp-action="Index" method="get">
-    <p>
-
-
-
-        <input type="submit" value="Filter" />
-    </p>
-</form>*@
 <p>
-    Component: <select asp-for="ComponentCategory" name="ComponentCategory" id="myCategory" onchange="filterTable()">
+    Total Visable: <select name="TotalVisable" id="totalVisable" onchange="filterTable()">
+    <option value="100">All</option>
+    <option value="50">50</option>
+    <option value="25">25</option>
+    <option value="10">10</option>
+    <option value="5">5</option>
+</select>
+
+    Component Category: <select asp-for="ComponentCategory" name="ComponentCategory" id="myCategory" onchange="filterTable()">
         <option value="ALL">All</option>
         <option value="CASE">Case</option>
         <option value="CPU">CPU</option>
@@ -55,10 +55,10 @@
         </th>
         <th></th>
     </tr>
-    
+
     @foreach (var item in Model.Items)
     {
-        <tr id="mainTR" >
+        <tr id="mainTR">
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -78,68 +78,79 @@
             </td>
         </tr>
     }
-    
+
 </table>
-    <div id="myList"></div>
+<div id="myList"></div>
 
 
 
 @section Scripts
 {
     <script type="text/javascript">
-        function filterTable()
-        {
-            // Declare variables 
-            var input, category, filterInput, filterCategory, table, tr, td, i, txtValue;
+        function filterTable() {
+            // Declare variables
+            var input, category, totalVisable, filterInput,
+                filterCategory, table, tr, td, i, txtValue,
+                total;
             input = document.getElementById("myInput");
-            category = document.getElementById("myCategory")
+            category = document.getElementById("myCategory");
+            totalVisable = document.getElementById("totalVisable");
             filterInput = input.value.toUpperCase();
             filterCategory = category.value.toUpperCase();
             table = document.getElementById("tableContent");
             tr = table.getElementsByTagName("tr");
-            // Loop through all table rows, and hide those who don't match the search query 
-            for (i = 0; i < tr.length; i++)
-            {
+
+            shown = 0;
+
+            console.log(total);
+            console.log(totalVisable.value);
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
                 td = tr[i].getElementsByTagName("td")[0];
                 td2 = tr[i].getElementsByTagName("td")[3];
-                
+
                 // Check search query
-                if (td)
-                {
-                  txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filterInput) > -1) 
-                  {
-                    tr[i].style.display = "";
-                  }
-                  else
-                  {
-                    tr[i].style.display = "none";
-                  }
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filterInput) > -1) {
+                        tr[i].style.display = "";
+                        
+                    }
+                    else {
+                        tr[i].style.display = "none";
+                    }
                 }
 
                 // Check component query
-                if (td2 && tr[i].style.display != "none")
-                {
+                if (td2 && tr[i].style.display != "none") {
 
                     txtValue = td2.textContent || td2.innerText;
                     txtValue = txtValue.trim();
 
-                    if (filterCategory == "ALL")
-                    {
+                    if (filterCategory == "ALL") {
                         tr[i].style.display = "";
                     }
-                    else if (txtValue.toUpperCase() == filterCategory)
-                    {
+                    else if (txtValue.toUpperCase() == filterCategory) {
                         tr[i].style.display = "";
                     }
-                    else
-                    {
+                    else {
                         tr[i].style.display = "none";
                     }
                 }
 
 
-          }
+
+                if (shown > parseInt(totalVisable.value)) {
+                    tr[i].style.display = "none";
+                }
+
+                // final check
+                if (tr[i].style.display == "")
+                    shown = shown + 1;
+
+            }
+
+            console.log(shown);
         }
     </script>
 

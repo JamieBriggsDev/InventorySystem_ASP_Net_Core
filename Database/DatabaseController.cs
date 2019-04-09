@@ -42,7 +42,7 @@ namespace Database
                     Item = temp.Name,
                     Change = temp.Quantity,
                     Time = DateTime.Now,
-                    Reason = "Added entry to inventory"
+                    Reason = "Added Entry to Inventory"
                 };
 
                 AddItem(transaction);
@@ -382,15 +382,60 @@ namespace Database
                 if (type != null && type != "")
                     items = items.Where(i => i.Component.ToString() == type).ToList();
 
-                return items;
+                return items.OrderBy(x => x.Name).ToList();
+            }
+        }
+
+        public Item FindItem(int id)
+        {
+            using (var db = new InventorySystemContext())
+            {
+                try
+                {
+                    var Item = db.Items.First(i => i.ID == id);
+
+                    return Item;
+                }
+                catch
+                {
+                    return null;
+                }
+               
             }
         }
 
         #endregion
 
+        #region Remove stock quantities
+        public bool RemoveStock(Dictionary<int, int> keyValuePairs)
+        {
+            using (var db = new InventorySystemContext())
+            {
+                foreach(var pair in keyValuePairs)
+                {
+                    Item item = FindItem(pair.Key);
+                    item.Quantity -= pair.Value;
+
+                    EditItem(item, false);
+
+                    AddItem(new Transaction()
+                    {
+                        Change = -pair.Value,
+                        Item = item.Name,
+                        Reason = "Sold to Customer",
+                        Time = DateTime.Now
+                    });
+                    db.SaveChanges();
+                }
+
+            }
+            return true;
+        }
+        #endregion
+
 
         #region Edit Method
-        public bool EditItem(Item item)
+        public bool EditItem(Item item, bool UpdateStock = true)
         {
             using (var db = new InventorySystemContext())
             {
@@ -400,7 +445,7 @@ namespace Database
 
 
 
-                if (change != 0)
+                if (change != 0 && UpdateStock)
                 {
                     Transaction transaction = new Transaction()
                     {
@@ -576,7 +621,7 @@ namespace Database
         {
             using (var db = new InventorySystemContext())
             {
-                return db.Items.ToList();
+                return db.Items.OrderBy(x => x.Name).ToList();
             }
         }
 
