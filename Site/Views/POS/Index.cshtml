@@ -135,8 +135,11 @@
             if (total > 0)
             {
                 button.href = "javascript:document.forms[0].submit()";
-                button.textContent = "Confirm Purchase: (" + total.toString() + " Items)";
                 button.className = "btn btn-primary btn-lg btn-block";
+                if(total == 1)
+                    button.textContent = "Confirm Purchase: (" + total.toString() + " Item)";
+                else
+                    button.textContent = "Confirm Purchase: (" + total.toString() + " Items)";
             }
         }
     </script>
