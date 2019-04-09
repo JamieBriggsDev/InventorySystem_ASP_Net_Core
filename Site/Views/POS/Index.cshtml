@@ -24,7 +24,7 @@
                         @Html.DisplayNameFor(model => Model[0].Item.Name)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => Model[0].Item.Price)
+                        @Html.DisplayNameFor(model => Model[0].Item.Price) *(£)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => Model[0].Item.Component)
@@ -182,7 +182,6 @@
                 }
             }
 
-            //console.log(total);
 
             // Update Total Price
             var price = document.getElementById("totalPrice");
