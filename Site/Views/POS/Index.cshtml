@@ -12,70 +12,81 @@
 </p>
 
 
-
-<table class="table" id="tableContent">
-    @*Headers for list of items*@
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => Model[0].Item.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => Model[0].Item.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => Model[0].Item.Component)
-        </th>
-        <th>
-            Quantity
-        </th>
-    </tr>
-    @*Begin form to find quantity of items to sell*@
-    @using (Html.BeginForm())
-    {
-        @*Loop through all items keeping index*@
-        for (int i = 0; i < Model.Count(); i++)
+<div class="row">
+    <div class="col-sm-8">
+        @*Begin form to find quantity of items to sell*@
+        @using (Html.BeginForm())
         {
-            @*Display item variables*@
-            <tr id="mainTR">
-                <td>
-                    @Html.DisplayFor(modelItem => Model[i].Item.Name)
-                </td>
-                <td id="price">
-                    @Html.DisplayFor(modelItem => Model[i].Item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model[i].Item.Component)
-                </td>
+            <table class="table" id="tableContent">
+                @*Headers for list of items*@
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => Model[0].Item.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => Model[0].Item.Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => Model[0].Item.Component)
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                </tr>
+                @*Loop through all items keeping index*@
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    @*Display item variables*@
+                    <tr id="mainTR">
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].Item.Name)
+                        </td>
+                        <td id="price">
+                            @Html.DisplayFor(modelItem => Model[i].Item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].Item.Component)
+                        </td>
 
 
 
-                <td>
-                    @*Display item quantity if quantity is over 0, else display "Out of Stock!"*@
-                    @if (Model[i].Item.Quantity > 0)
-                    {
-                        @Html.DropDownListFor(modelItem => Model[i].Quantity,
-                            Enumerable.Range(0, Model[i].Item.Quantity + 1).Select(a => new SelectListItem
+                        <td>
+                            @*Display item quantity if quantity is over 0, else display "Out of Stock!"*@
+                            @if (Model[i].Item.Quantity > 0)
                             {
-                                Text = a.ToString(), Value = a.ToString()
-                            }), new { @name="QuantityDD", @onchange="UpdateConfirmButton()" })
-                    }
-                    else
-                    {
-                        @:Out of Stock!
-                    }
+                                @Html.DropDownListFor(modelItem => Model[i].Quantity,
+                             Enumerable.Range(0, Model[i].Item.Quantity + 1).Select(a => new SelectListItem
+                             {
+                                 Text = a.ToString(),
+                                 Value = a.ToString()
+                             }), new { @name = "QuantityDD", @onchange = "UpdateBasket()" })
+                            }
+                            else
+                            {
+                                @:Out of Stock!
+                                <select style="display:none;">0</select>
+                            }
 
-                    @Html.HiddenFor(modelItem => Model[i].ID)
-                </td>
+                            @Html.HiddenFor(modelItem => Model[i].ID)
+                        </td>
+
+                    </tr>
+                }
 
 
-            </tr>
+            </table>
         }
+    </div>
+    <div class="col-sm-4">
+        <h1>Basket:</h1>
+        <table class="table" id="basketContent">
 
+        </table>
+        <h3 id="totalPrice">Total: £0.00</h3>
         <a type="button" id="CheckoutButton" class="btn btn-secondary btn-lg btn-block">No Items Selected</a>
-    }
-
-
-</table>
+    </div>
+    
+</div>
 
 
 @section Scripts
@@ -108,35 +119,85 @@
     </script>
 
     <script type="text/javascript">
-        function UpdateConfirmButton() {
-            var total, dropdowns, table, button, tr;
+        function UpdateBasket() {
+            var total, dropdowns, name, totalPrice, price, table, button, tr, basket;
             total = 0;
-            price = 0.00;
+            totalPrice = 0.00;
             table = document.getElementById("tableContent");
             dropdowns = table.getElementsByTagName("select");
+            
+            
             tr = table.getElementsByTagName("tr");
+            //console.log(tr);
             button = document.getElementById("CheckoutButton");
             button.textContent = "No Items Selected";
             button.removeAttribute("href");
             button.className = "btn btn-secondary btn-lg btn-block";
 
-            // Get information
-            for (i = 0; i < tr.length; i++) {
-
-                // Total quantity
-                if (dropdowns[i]) {
-                    total = total + parseInt(dropdowns[i].value);
-                }
-
+            basket = document.getElementById("basketContent");
+            // Remove all rows from table
+            while (basket.hasChildNodes()) {
+                basket.removeChild(basket.firstChild);
             }
 
 
+            console.log(tr[1]);
+            // Get information
+            for (i = 1; i <= tr.length; i++) {
 
-            if (total > 0)
-            {
+                // Total quantity
+                if (dropdowns[i-1]) {
+
+                    // If dropdown is more than 0
+                    if (dropdowns[i - 1].value > 0) {
+
+                        // Get Name
+                        name = tr[i].getElementsByTagName("td")[0];
+                        price = tr[i].getElementsByTagName("td")[1];
+
+                        var txtValue = name.textContent || name.innerText;
+                        txtValue = txtValue.trim();
+                        var txtPrice = price.textContent || price.innerText;
+                        txtPrice = txtPrice.trim();
+
+                        console.log(Number(txtPrice));
+                        totalPrice += Number(txtPrice) * Number(dropdowns[i - 1].value.toString() * 100) / 100;
+                        // Insert row into basket and two cells
+                        var row = basket.insertRow(0);
+                        var cell = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        // Place name and quantity into basket
+                        if (txtValue.length > 25)
+                            cell.innerHTML = txtValue.substring(0, 25) + "...";
+                        else
+                            cell.innerHTML = txtValue;
+
+                        cell2.innerHTML = "x " + dropdowns[i - 1].value.toString();
+                        cell3.innerHTML = "£" + Math.round(Number(txtPrice) * Number(dropdowns[i - 1].value.toString()) * 100) / 100;
+
+                        // Increment total for checkout button
+                        total += parseInt(dropdowns[i - 1].value);
+                    }
+                }
+            }
+
+            //console.log(total);
+
+            // Update Total Price
+            var price = document.getElementById("totalPrice");
+
+            console.log(price);
+            if (totalPrice > 0)
+                price.innerHTML = "Total:    £" + Math.round(totalPrice * 100)/100;
+            else
+                price.innerHTML = "Total:    £0.00"
+
+            // Update Button
+            if (total > 0) {
                 button.href = "javascript:document.forms[0].submit()";
                 button.className = "btn btn-primary btn-lg btn-block";
-                if(total == 1)
+                if (total == 1)
                     button.textContent = "Confirm Purchase: (" + total.toString() + " Item)";
                 else
                     button.textContent = "Confirm Purchase: (" + total.toString() + " Items)";
