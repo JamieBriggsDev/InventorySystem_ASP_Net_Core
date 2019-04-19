@@ -16,7 +16,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CPU.Speed, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CPU.Speed, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CPU.Speed, new { htmlAttributes = new { @class = "form-control", id="speed", onkeyup="CheckFields()" } })
                 @Html.ValidationMessageFor(model => model.CPU.Speed, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -24,7 +24,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CPU.Cores, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CPU.Cores, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CPU.Cores, new { htmlAttributes = new { @class = "form-control", id="cores", onkeyup="CheckFields()", onfocusout="FixNumber(this)" } })
                 @Html.ValidationMessageFor(model => model.CPU.Cores, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -32,15 +32,56 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CPU.Power, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CPU.Power, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CPU.Power, new { htmlAttributes = new { @class = "form-control", id="power", onkeyup = "CheckFields()", onfocusout = "FixNumber(this)" } })
                 @Html.ValidationMessageFor(model => model.CPU.Power, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <a type="button" href="javascript:document.forms[0].submit()" class="btn btn-primary btn-lg btn-block">Create</a>
+            <a type="button" class="btn btn-secondary btn-lg btn-block" id="continue">Create</a>
             <a type="button" href="~/Inventory/Index" class="btn btn-secondary btn-lg btn-block">Cancel</a>
         </div>
     </div>
 }
 
+@section Scripts
+{
+    <script type="text/javascript">
+        function CheckFields() {
+            // Declare variables
+            var speed, button;
+            // Get variables
+            speed = document.getElementById("speed");
+
+            button = document.getElementById("continue");
+
+            console.log(speed);
+
+            if (speed.value.length > 0) {
+                button.className = "btn btn-primary btn-lg btn-block";
+                button.href = "javascript:document.forms[0].submit()";
+                button.textContent = "Continue"
+            }
+            else {
+                button.className = "btn btn-secondary btn-lg btn-block";
+                button.textContent = "Missing Information"
+                button.removeAttribute("href");
+            }
+
+        }
+    </script>
+
+    <script type="text/javascript">
+        String.prototype.cleanup = function () {
+            return this.toLowerCase().replace(/[^0-9]+/g, "");
+        }
+        function FixNumber(elem) {
+            // Declare variables
+            var number, text;
+
+            if (elem.value == "") { elem.value = 0 }
+
+        }
+    </script>
+
+}

@@ -4,7 +4,10 @@
     ViewBag.Title = "CPUCooler";
 }
 
+
+
 <h2>@Model.Item.Name</h2>
+
 
 @using (Html.BeginForm())
 {
@@ -17,7 +20,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CPUCooler.FanRPM, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CPUCooler.FanRPM, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CPUCooler.FanRPM, new { htmlAttributes = new { @class = "form-control", id = "fanrpm", onkeyup = "CheckFields()"} })
                 @Html.ValidationMessageFor(model => model.CPUCooler.FanRPM, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -25,15 +28,42 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CPUCooler.NoiseLevel, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CPUCooler.NoiseLevel, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CPUCooler.NoiseLevel, new { htmlAttributes = new { @class = "form-control", id = "noise", onkeyup = "CheckFields()" } })
                 @Html.ValidationMessageFor(model => model.CPUCooler.NoiseLevel, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <a type="button" href="javascript:document.forms[0].submit()" class="btn btn-primary btn-lg btn-block">Create</a>
+            <a type="button" class="btn btn-secondary btn-lg btn-block" id="continue">Missing Information</a>
             <a type="button" href="~/Inventory/Index" class="btn btn-secondary btn-lg btn-block">Cancel</a>
         </div>
     </div>
 }
 
+@section Scripts
+{
+    <script type="text/javascript">
+        function CheckFields() {
+            // Declare variables
+            var fanrpm, noise, button;
+            // Get variables
+            fanrpm = document.getElementById("fanrpm");
+            noise = document.getElementById("noise");
+            button = document.getElementById("continue");
+
+            if (fanrpm.value.length > 0 &&
+                noise.value.length > 0) {
+                button.className = "btn btn-primary btn-lg btn-block";
+                button.href = "javascript:document.forms[0].submit()";
+                button.textContent = "Continue"
+            }
+            else {
+                button.className = "btn btn-secondary btn-lg btn-block";
+                button.textContent = "Missing Information"
+                button.removeAttribute("href");
+            }
+
+        }
+    </script>
+
+}
