@@ -4,7 +4,7 @@
     ViewBag.Title = "PSU";
 }
 
-<h2>@Model.Item.Name</h2>
+<h2>PSU - @Model.Item.Name</h2>
 
 @using (Html.BeginForm())
 {
@@ -17,7 +17,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PSU.Series, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PSU.Series, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.PSU.Series, new { htmlAttributes = new { @class = "form-control", id="series", onkeyup="CheckFields()" } })
                 @Html.ValidationMessageFor(model => model.PSU.Series, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -25,7 +25,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PSU.Form, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PSU.Form, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.PSU.Form, new { htmlAttributes = new { @class = "form-control", id = "form", onkeyup = "CheckFields()" } })
                 @Html.ValidationMessageFor(model => model.PSU.Form, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -33,7 +33,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PSU.Efficiency, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PSU.Efficiency, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.PSU.Efficiency, new { htmlAttributes = new { @class = "form-control", id = "efficiency", onkeyup = "CheckFields()" } })
                 @Html.ValidationMessageFor(model => model.PSU.Efficiency, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -41,7 +41,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PSU.Watts, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PSU.Watts, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.PSU.Watts, new { htmlAttributes = new { @class = "form-control", id = "watts", onkeyup = "CheckFields()" } })
                 @Html.ValidationMessageFor(model => model.PSU.Watts, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -49,15 +49,49 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PSU.Modular, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PSU.Modular, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.PSU.Modular, new { htmlAttributes = new { @class = "form-control", id = "modular", onkeyup = "CheckFields()" } })
                 @Html.ValidationMessageFor(model => model.PSU.Modular, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <a type="button" href="javascript:document.forms[0].submit()" class="btn btn-primary btn-lg btn-block">Create</a>
+            <a type="button" class="btn btn-secondary btn-lg btn-block" id="continue">Missing Information</a>
             <a type="button" href="~/Inventory/Index" class="btn btn-secondary btn-lg btn-block">Cancel</a>
         </div>
     </div>
 }
 
+@section Scripts
+{
+    <script type="text/javascript">
+        function CheckFields() {
+            // Declare variables
+            var series, form, efficiency, watts, modular, button;
+            // Get variables
+            series = document.getElementById("series");
+            form = document.getElementById("form");
+            efficiency = document.getElementById("efficiency");
+            watts = document.getElementById("watts");
+            button = document.getElementById("continue");
+            modular = document.getElementById("modular");
+
+            if (series.value.length > 0 &&
+                form.value.length > 0 &&
+                efficiency.value.length > 0 &&
+                watts.value.length > 0 &&
+                modular.value.length > 0) {
+                button.className = "btn btn-primary btn-lg btn-block";
+                button.href = "javascript:document.forms[0].submit()";
+                button.textContent = "Continue"
+            }
+            else
+            {
+                button.className = "btn btn-secondary btn-lg btn-block";
+                button.textContent = "Missing Information"
+                button.removeAttribute("href");
+            }
+
+        }
+    </script>
+
+}
