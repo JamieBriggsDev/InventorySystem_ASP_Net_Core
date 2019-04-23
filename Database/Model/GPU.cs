@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
+//51854
+
 namespace Database.Model
 {
     public class GPU
