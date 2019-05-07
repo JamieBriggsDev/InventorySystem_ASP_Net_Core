@@ -136,13 +136,24 @@
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\POSController.cs" />
+    <Compile Include="DatabaseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="InventorySystemContext.cs" />
     <Compile Include="Models\CustomHtmlHelper.cs" />
     <Compile Include="Models\POSViewModel.cs" />
     <Compile Include="Models\CreateViewModel.cs" />
     <Compile Include="Models\ItemViewModel.cs" />
+    <Compile Include="Model\Case.cs" />
+    <Compile Include="Model\CPU.cs" />
+    <Compile Include="Model\CPUCooler.cs" />
+    <Compile Include="Model\GPU.cs" />
+    <Compile Include="Model\Item.cs" />
+    <Compile Include="Model\Motherboard.cs" />
+    <Compile Include="Model\PSU.cs" />
+    <Compile Include="Model\RAM.cs" />
+    <Compile Include="Model\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -210,12 +221,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Database\Database.csproj">
-      <Project>{7f36a338-d0c4-468b-9498-e598d829a704}</Project>
-      <Name>Database</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

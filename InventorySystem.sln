@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{7F36A338-D0C4-468B-9498-E598D829A704}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "DatabaseTest\Model.csproj", "{1E0EE192-1173-4D98-B436-99FF275342C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site", "Site\Site.csproj", "{3A9111BF-E150-420C-95DF-E80F74E125D4}"
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7F36A338-D0C4-468B-9498-E598D829A704}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F36A338-D0C4-468B-9498-E598D829A704}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F36A338-D0C4-468B-9498-E598D829A704}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F36A338-D0C4-468B-9498-E598D829A704}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1E0EE192-1173-4D98-B436-99FF275342C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1E0EE192-1173-4D98-B436-99FF275342C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E0EE192-1173-4D98-B436-99FF275342C8}.Release|Any CPU.ActiveCfg = Release|Any CPU

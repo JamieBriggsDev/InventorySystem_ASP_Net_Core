@@ -61,7 +61,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseTests.cs" />
+    <Compile Include="DeleteFromDatabase.cs" />
+    <Compile Include="EditDatabase.cs" />
+    <Compile Include="AddToDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -69,13 +71,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Database\Database.csproj">
-      <Project>{7f36a338-d0c4-468b-9498-e598d829a704}</Project>
-      <Name>Database</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{16694826-1319-45c4-b9d6-b0a4ddea6e6e}</Project>
       <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Site\Site.csproj">
+      <Project>{3a9111bf-e150-420c-95df-e80f74e125d4}</Project>
+      <Name>Site</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

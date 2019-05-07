@@ -11,12 +11,17 @@ namespace DatabaseTests
 
         DatabaseController DC = new DatabaseController();
 
-
         [TestMethod]
         public void AddCPU()
         {
+            // Remove item from database if it already exists
+            if(DC.ItemExists("i5 4690k"))
+            {
+                int id = DC.GetItems().Find(a => a.Name == "i5 4690k").ID;
+                DC.DeleteItem(id, false);
+            }
 
-            // Test CPU
+            // Test CPU to add to database
             Item item = new Item
             {
                 Name = "i5 4690k",
@@ -40,7 +45,12 @@ namespace DatabaseTests
         [TestMethod]
         public void AddCPUCooler()
         {
-
+            // Remove item from database if it already exists
+            if (DC.ItemExists("Cooler Master Hyper 212 EVO"))
+            {
+                int id = DC.GetItems().Find(a => a.Name == "Cooler Master Hyper 212 EVO").ID;
+                DC.DeleteItem(id, false);
+            }
             // Test CPU
             Item item = new Item
             {
@@ -63,7 +73,12 @@ namespace DatabaseTests
         [TestMethod]
         public void AddMotherboard()
         {
-
+            // Remove item from database if it already exists
+            if (DC.ItemExists("Gigabyte - X470 AORUS ULTRA GAMING ATX AM4 Motherboard"))
+            {
+                int id = DC.GetItems().Find(a => a.Name == "Gigabyte - X470 AORUS ULTRA GAMING ATX AM4 Motherboard").ID;
+                DC.DeleteItem(id, false);
+            }
             // Test CPU
             Item item = new Item
             {
@@ -88,6 +103,12 @@ namespace DatabaseTests
         [TestMethod]
         public void AddGPU()
         {
+            // Remove item from database if it already exists
+            if (DC.ItemExists("Gigabyte GV-N208TAORUSX W-11GC"))
+            {
+                int id = DC.GetItems().Find(a => a.Name == "Gigabyte GV-N208TAORUSX W-11GC").ID;
+                DC.DeleteItem(id, false);
+            }
             // Test CPU
             Item item = new Item
             {
@@ -112,6 +133,12 @@ namespace DatabaseTests
         [TestMethod]
         public void AddRAM()
         {
+            // Remove item from database if it already exists
+            if (DC.ItemExists("Corsair Vengance LPX"))
+            {
+                int id = DC.GetItems().Find(a => a.Name == "Corsair Vengance LPX").ID;
+                DC.DeleteItem(id, false);
+            }
             // Test CPU
             Item item = new Item
             {
@@ -138,11 +165,17 @@ namespace DatabaseTests
         [TestMethod]
         public void AddCase()
         {
+            // Remove item from database if it already exists
+            if (DC.ItemExists("NZXT H500 (Black)"))
+            {
+                int id = DC.GetItems().Find(a => a.Name == "NZXT H500 (Black)").ID;
+                DC.DeleteItem(id, false);
+            }
             // Test CPU
             Item item = new Item
             {
-                Name = "NZXT Case",
-                Price = 97.99m,
+                Name = "NZXT H500 (Black)",
+                Price = 69.99m,
                 Quantity = 3,
                 Component = Database.Model.Type.CASE
             };
@@ -155,13 +188,19 @@ namespace DatabaseTests
 
             Assert.IsTrue(DC.AddItem(item, @case), "Failed to add test Case.");
 
-            Assert.IsTrue(DC.ItemExists("NZXT Case"));
+            Assert.IsTrue(DC.ItemExists("NZXT H500 (Black)"));
 
         }
 
         [TestMethod]
         public void AddPSU()
         {
+            // Remove item from database if it already exists
+            if (DC.ItemExists("EVGA SuperNOVA 750"))
+            {
+                int id = DC.GetItems().Find(a => a.Name == "EVGA SuperNOVA 750").ID;
+                DC.DeleteItem(id, false);
+            }
             // Test CPU
             Item item = new Item
             {

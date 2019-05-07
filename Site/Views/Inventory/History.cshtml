@@ -16,7 +16,7 @@
 <table class="table" id="tableContent">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Item)
+            @Html.DisplayNameFor(model => model.Item.Name)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Change)
@@ -32,7 +32,7 @@
     {
         <tr id="mainTR">
             <td>
-                @Html.DisplayFor(modelItem => transaction.Item)
+                @Html.DisplayFor(modelItem => transaction.Item.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => transaction.Change)
