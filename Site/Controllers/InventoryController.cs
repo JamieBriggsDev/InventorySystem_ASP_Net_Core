@@ -105,6 +105,7 @@ namespace Site.Controllers
         public ActionResult Edit(Item item)
         {
             DatabaseController db = new DatabaseController();
+            item.Component = db.GetItems().First(a => a.ID == item.ID).Component;
             db.EditItem(item);
             return RedirectToAction("Index");
         }

@@ -39,27 +39,6 @@
             </div>
         </div>
 
-        @{
-            var selectList = new SelectList(
-                new List<SelectListItem>
-                {
-            new SelectListItem {Text = "CPU", Value = "CPU"},
-            new SelectListItem {Text = "CPUCooler", Value = "CPUCooler"},
-            new SelectListItem {Text = "GPU", Value = "GPU"},
-            new SelectListItem {Text = "MOTHERBOARD", Value = "MOTHERBOARD"},
-            new SelectListItem {Text = "PSU", Value = "PSU"},
-            new SelectListItem {Text = "RAM", Value = "RAM"}
-                }, "Value", "Text");
-        }
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Component, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Component, selectList, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Component, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
         <div class="form-group">
 
             @*<input type="submit" value="Save" class="btn btn-primary btn-lg btn-block" />*@

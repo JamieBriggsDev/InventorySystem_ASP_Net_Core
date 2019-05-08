@@ -630,7 +630,7 @@ namespace Database
         {
             using (var db = new InventorySystemContext())
             {
-                var transactions = db.Transactions;
+                var transactions = db.Transactions.OrderByDescending(x => x.Time).ToList();
                 var items = GetItems();
                 foreach(var tran in transactions)
                 {
