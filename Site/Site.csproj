@@ -145,15 +145,15 @@
     <Compile Include="Models\POSViewModel.cs" />
     <Compile Include="Models\CreateViewModel.cs" />
     <Compile Include="Models\ItemViewModel.cs" />
-    <Compile Include="Model\Case.cs" />
-    <Compile Include="Model\CPU.cs" />
-    <Compile Include="Model\CPUCooler.cs" />
-    <Compile Include="Model\GPU.cs" />
-    <Compile Include="Model\Item.cs" />
-    <Compile Include="Model\Motherboard.cs" />
-    <Compile Include="Model\PSU.cs" />
-    <Compile Include="Model\RAM.cs" />
-    <Compile Include="Model\Transaction.cs" />
+    <Compile Include="Objects\Case.cs" />
+    <Compile Include="Objects\CPU.cs" />
+    <Compile Include="Objects\CPUCooler.cs" />
+    <Compile Include="Objects\GPU.cs" />
+    <Compile Include="Objects\Item.cs" />
+    <Compile Include="Objects\Motherboard.cs" />
+    <Compile Include="Objects\PSU.cs" />
+    <Compile Include="Objects\RAM.cs" />
+    <Compile Include="Objects\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
